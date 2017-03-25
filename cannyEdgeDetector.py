@@ -34,7 +34,6 @@ def my_DerivativesOfGaussian(img, sigma):
 
 	IxNormalized = cv2.normalize(IxGauss.astype('float'), None, 0.0, 1.0, cv2.NORM_MINMAX)
 	IyNormalized = cv2.normalize(IyGauss.astype('float'), None, 0.0, 1.0, cv2.NORM_MINMAX)
-#cv2.cvtColor(imgYCC, cv2.COLOR_YCR_CB2BGR)
 	
 	cv2.imshow('IxNormalized', IxNormalized)
 	cv2.imshow('IyNormalized', IyNormalized)
