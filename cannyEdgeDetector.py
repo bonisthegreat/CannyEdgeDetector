@@ -5,7 +5,7 @@ from mpl_toolkits.mplot3d.axes3d import Axes3D
 
 import math
 
-
+# Step 1: Normalize and convert to grayscale image
 def my_Normalize(img):
 
 	if img is not None:
@@ -23,6 +23,7 @@ def my_Normalize(img):
 		print('No image input or wrong input.')
 		return
 
+# Step 2: Do the derivatives of Gaussian (derivatives + gaussian filter)
 def my_DerivativesOfGaussian(img, sigma):
 	sobelx, sobely = sobelKernel()
 	myGaussianFilter = GaussianFilter(sigma)
@@ -42,6 +43,7 @@ def my_DerivativesOfGaussian(img, sigma):
 	
 	return Ix, Iy
 
+# Sobel kernel
 def sobelKernel():
 	sobelx = np.zeros((3, 3), int)
 	sobely = np.zeros((3, 3), int)
@@ -62,6 +64,7 @@ def sobelKernel():
 
 	return sobelx, sobely
 
+# Gausian filter generator
 def GaussianFilter(sigma):
     halfSize = 3 * sigma
     maskSize = 2 * halfSize + 1 
@@ -82,7 +85,7 @@ def GaussianFilter(sigma):
     return mat
 
 
-
+# Caculate magnitude and orientation of derivatives of Gaussian
 def my_MagAndOrientation(Ix, Iy, t_low):
 
 	print(Ix.shape)
@@ -115,6 +118,7 @@ def my_MagAndOrientation(Ix, Iy, t_low):
 	cv2.waitKey()
 	return magnitudeNormalized, orientation
 
+# Thinning:  Non-Maximum Suppression
 def my_NMS(mag, orient, t_low):
 	mag_thin = np.zeros(mag.shape, float)
 
@@ -144,6 +148,7 @@ def my_NMS(mag, orient, t_low):
 	cv2.waitKey()
 	return mag_thin
 
+# Linking (Hysteresis Thresholding)
 def my_linking(mag_thin, orient, tLow, tHigh):
 	result_binary = np.zeros(mag_thin.shape, float)
 
@@ -195,7 +200,7 @@ def my_linking(mag_thin, orient, tLow, tHigh):
 
 	return result_binary
 
-
+# Putting it all together
 def my_Canny(img, sigma, tLow, tHigh):
 	firstStep = my_Normalize(testImage)
 	cv2.imshow("Before", firstStep)
